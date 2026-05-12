@@ -1,44 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tiktok Downloader</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-    <h1 class="neon-title">Tiktok Downloader</h1>
+  <div class="title">Tiktok Downloader</div>
 
-    <div class="card">
-        <input type="text" id="tturl" placeholder="Paste TikTok URL..." class="input-box">
-        <button class="main-btn" onclick="analyzeTikTok()">Analyze</button>
+  <input type="text" id="url" placeholder="Masukkan URL TikTok">
+
+  <select id="quality">
+    <option>420</option>
+    <option>720</option>
+    <option>1080</option>
+    <option>1k</option>
+  </select>
+
+  <button onclick="loadData()">Ambil Data</button>
+
+  <div class="card" id="result" style="display:none;">
+    <img id="profile" class="profile">
+
+    <div class="info">
+      <div><b>Username:</b> <span id="username"></span></div>
+      <div><b>Caption:</b> <span id="caption"></span></div>
+      <div><b>Sound:</b> <span id="soundTitle"></span></div>
+      <div><b>Media URL:</b> <span id="media"></span></div>
     </div>
 
-    <div id="statusBox" class="card hidden">
-        <img id="profilePic" class="profile-pic" src="" alt="">
-        <h2 id="username">@username</h2>
-
-        <div class="status-grid">
-            <div><span>Type:</span> <p id="mediaType">-</p></div>
-            <div><span>Caption:</span> <p id="caption">-</p></div>
-            <div><span>Sound:</span> <p id="sound">-</p></div>
-            <div><span>Quality:</span> <p>420 / 720 / 1080 / 1K</p></div>
-        </div>
-
-        <video id="previewVideo" controls class="preview-video hidden"></video>
-
-        <div class="button-group">
-            <button class="main-btn">Download No WM</button>
-            <button class="main-btn">Download Sound</button>
-        </div>
+    <div class="actions">
+      <a id="downloadVideo" class="link-btn" download>Download No WM</a>
+      <a id="downloadSound" class="link-btn" download>Download Sound</a>
     </div>
-
-    <div class="notice">
-        Backend/API TikTok downloader perlu dihubungkan sendiri pada app.js atau server backend.
-    </div>
+  </div>
 </div>
 
-<script src="app.js"></script>
+<script>
+async function loadData(){
+  const url = document.getElementById('url').value;
+
+  const req = await fetch('/api/tiktok',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({url})
+  });
+
+  const data = await req.json();
+
+  document.getElementById('result').style.display='block';
+  document.getElementById('profile').src=data.profile;
+  document.getElementById('username').innerText=data.username;
+  document.getElementById('caption').innerText=data.caption;
+  document.getElementById('soundTitle').innerText=data.soundTitle;
+  document.getElementById('media').innerText=data.media;
+
+  document.getElementById('downloadVideo').href=data.media;
+  document.getElementById('downloadSound').href=data.sound;
+}
+</script>
 </body>
 </html>

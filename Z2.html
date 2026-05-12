@@ -1,35 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZWHD</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-    <h1 class="neon-title">ZWHD</h1>
+  <div class="title">ZWHD</div>
 
-    <div class="card">
-        <input type="file" id="mediaInput" class="input-box">
-        <button class="main-btn" onclick="enhanceMedia()">Upload & Enhance</button>
+  <input type="file" id="file">
+
+  <button onclick="uploadFile()">Download HD</button>
+
+  <div class="card">
+    <div class="info">
+      Enhance foto, video, dan live photo dengan kualitas tinggi menggunakan FFmpeg tanpa kompres berlebih.
     </div>
-
-    <div id="previewArea" class="card hidden">
-        <h2>Preview</h2>
-        <img id="imagePreview" class="preview-image hidden">
-        <video id="videoPreview" class="preview-video hidden" controls></video>
-
-        <div class="button-group">
-            <button class="main-btn">Download HD</button>
-        </div>
-    </div>
-
-    <div class="notice">
-        Untuk fitur real AI Enhance HD diperlukan backend FFmpeg / AI Upscaler.
-    </div>
+  </div>
 </div>
 
-<script src="app.js"></script>
+<script>
+async function uploadFile(){
+  const file = document.getElementById('file').files[0];
+
+  const form = new FormData();
+  form.append('file', file);
+
+  const response = await fetch('/api/enhance',{
+    method:'POST',
+    body:form
+  });
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ZZ-HD-RESULT.mp4';
+  a.click();
+}
+</script>
 </body>
 </html>
