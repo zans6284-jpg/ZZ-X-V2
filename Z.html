@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiktok Downloader</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="neon-title">Tiktok Downloader</h1>
+
+    <div class="card">
+        <input type="text" id="tturl" placeholder="Paste TikTok URL..." class="input-box">
+        <button class="main-btn" onclick="analyzeTikTok()">Analyze</button>
+    </div>
+
+    <div id="statusBox" class="card hidden">
+        <img id="profilePic" class="profile-pic" src="" alt="">
+        <h2 id="username">@username</h2>
+
+        <div class="status-grid">
+            <div><span>Type:</span> <p id="mediaType">-</p></div>
+            <div><span>Caption:</span> <p id="caption">-</p></div>
+            <div><span>Sound:</span> <p id="sound">-</p></div>
+            <div><span>Quality:</span> <p>420 / 720 / 1080 / 1K</p></div>
+        </div>
+
+        <video id="previewVideo" controls class="preview-video hidden"></video>
+
+        <div class="button-group">
+            <button class="main-btn">Download No WM</button>
+            <button class="main-btn">Download Sound</button>
+        </div>
+    </div>
+
+    <div class="notice">
+        Backend/API TikTok downloader perlu dihubungkan sendiri pada app.js atau server backend.
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
